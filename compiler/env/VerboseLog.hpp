@@ -75,6 +75,13 @@ enum TR_VlogTag
    TR_Vlog_numTags
    };
 
+//NOTE: Argument index is 1-based, and implicit 'this' in non-static member functions counts as an argument
+#if defined(__GNUC__)
+#define CHECK_FORMAT_STRING(strIndex, firstArgIndex) __attribute__((format(printf, strIndex, firstArgIndex)))
+#else /* defined(__GNUC__) */
+#define CHECK_FORMAT_STRING(strIndex, firstArgIndex)
+#endif /* defined(__GNUC__) */
+
 /*
  * TR_VerboseLog stores the config of the jit early on, and can use it for printing to the verbose log
  * Each verbose write should have a Tag (see TR_VlogTag for list of options).  The tag is of the form: '\n#TAG:  '
@@ -84,12 +91,12 @@ class TR_VerboseLog
    public:
    //writeLine and write provide multi line write capabilities, and are to be used with vlogAcquire() and vlogRelease(),
    //this ensures nice formatted verbose logs
-   static void write(const char *format, ...);
-   static void write(TR_VlogTag tag, const char *format, ...);
-   static void writeLine(TR_VlogTag tag, const char *format, ...);
-   static void writeLine(const char *format, ...);
+   static void write(const char *format, ...) CHECK_FORMAT_STRING(1, 2);
+   static void write(TR_VlogTag tag, const char *format, ...) CHECK_FORMAT_STRING(2, 3);
+   static void writeLine(TR_VlogTag tag, const char *format, ...) CHECK_FORMAT_STRING(2, 3);
+   static void writeLine(const char *format, ...) CHECK_FORMAT_STRING(1, 2);
    //writeLineLocked is a single line print function, it provides the locks for you
-   static void writeLineLocked(TR_VlogTag tag, const char *format, ...);
+   static void writeLineLocked(TR_VlogTag tag, const char *format, ...) CHECK_FORMAT_STRING(2, 3);
    static void vlogAcquire(); //defined in each front end
    static void vlogRelease(); //defined in each front end
    //only called once early on, after we can print to the vlog
