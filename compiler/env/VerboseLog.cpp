@@ -22,11 +22,12 @@
 #include "env/VerboseLog.hpp"
 #include "infra/Assert.hpp"
 
-void *TR_VerboseLog::_config = 0;
 
-const char * TR_VerboseLog::_vlogTable[] =
+void *TR_VerboseLog::_config = NULL;
+
+const char *const TR_VerboseLog::_vlogTable[] =
    {
-   0,
+   NULL,
    "#INFO:  ",
    "#SAMPLE:  ",
    "#IPROFILER:  ",

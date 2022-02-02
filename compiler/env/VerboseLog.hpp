@@ -24,7 +24,10 @@
 
 #pragma once
 
+#include "infra/Annotations.hpp" // OMR_PRINTF_FORMAT_ATTR
+
 #include <stdarg.h>
+
 
 /*
  * Each call to the vlog must now have a 'tag'
@@ -84,18 +87,18 @@ enum TR_VlogTag
  */
 class TR_VerboseLog
    {
-   public:
+public:
    // writeLine and write provide multi line write capabilities, and are to be
    // used with CriticalSection or vlogAcquire() and vlogRelease() to ensure
    // nicely formatted verbose logs
-   static void write(const char *format, ...);
-   static void write(TR_VlogTag tag, const char *format, ...);
-   static void writeLine(TR_VlogTag tag, const char *format, ...);
-   static void writeLine(const char *format, ...);
-   //writeLineLocked is a single line print function, it provides the locks for you
-   static void writeLineLocked(TR_VlogTag tag, const char *format, ...);
-   static void vlogAcquire(); //defined in each front end
-   static void vlogRelease(); //defined in each front end
+   static void write(const char *format, ...) OMR_PRINTF_FORMAT_ATTR(1, 2);
+   static void write(TR_VlogTag tag, const char *format, ...) OMR_PRINTF_FORMAT_ATTR(2, 3);
+   static void writeLine(TR_VlogTag tag, const char *format, ...) OMR_PRINTF_FORMAT_ATTR(2, 3);
+   static void writeLine(const char *format, ...) OMR_PRINTF_FORMAT_ATTR(1, 2);
+   // writeLineLocked is a single line print function, it provides the locks for you
+   static void writeLineLocked(TR_VlogTag tag, const char *format, ...) OMR_PRINTF_FORMAT_ATTR(2, 3);
+   static void vlogAcquire(); // defined in each front end
+   static void vlogRelease(); // defined in each front end
 
    class CriticalSection
       {
@@ -119,17 +122,17 @@ class TR_VerboseLog
       bool _locked;
       };
 
-   //only called once early on, after we can print to the vlog
+   // only called once early on, after we can print to the vlog
    static void initialize(void *config);
 
-   private:
-
+private:
    static void privateStaticAsserts();
 
-   static void vwrite(const char *format, va_list args); //defined in each front end
+   static void vwrite(const char *format, va_list args); // defined in each front end
    static void writeTimeStamp();
-   static const char *_vlogTable[];
-   static void *_config; //we will use void * as the different implementations have different config types
+   static const char *const _vlogTable[];
+   static void *_config; // we will use void * as the different implementations have different config types
    };
+
 
 #endif // VERBOSELOG_HPP
