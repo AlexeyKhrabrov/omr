@@ -24,37 +24,33 @@
 
 #include <stdarg.h>
 #include <stddef.h>
+
 #include "env/defines.h"
 #include "env/TRMemory.hpp"
+#include "infra/Annotations.hpp" // OMR_PRINTF_FORMAT_ATTR
 #include "infra/Uncopyable.hpp"
 
-#if HOST_COMPILER == COMPILER_GCC || HOST_COMPILER == COMPILER_CLANG
-#define TR_PRINTF_FORMAT_ATTR(fmtIndex, argsIndex) \
-   __attribute__((format(printf, (fmtIndex), (argsIndex))))
-#else
-#define TR_PRINTF_FORMAT_ATTR(fmtIndex, argsIndex)
-#endif
 
 namespace TR {
 
 int vprintfLen(const char *fmt, va_list args);
 
-int printfLen(const char *fmt, ...) TR_PRINTF_FORMAT_ATTR(1, 2);
+int printfLen(const char *fmt, ...) OMR_PRINTF_FORMAT_ATTR(1, 2);
 
 bool vsnprintfTrunc(char *buf, size_t size, int *len, const char *fmt, va_list args);
 
 bool snprintfTrunc(char *buf, size_t size, int *len, const char *fmt, ...)
-   TR_PRINTF_FORMAT_ATTR(4, 5);
+   OMR_PRINTF_FORMAT_ATTR(4, 5);
 
 bool vsnprintfTrunc(char *buf, size_t size, const char *fmt, va_list args);
 
 bool snprintfTrunc(char *buf, size_t size, const char *fmt, ...)
-   TR_PRINTF_FORMAT_ATTR(3, 4);
+   OMR_PRINTF_FORMAT_ATTR(3, 4);
 
 int vsnprintfNoTrunc(char *buf, size_t size, const char *fmt, va_list args);
 
 int snprintfNoTrunc(char *buf, size_t size, const char *fmt, ...)
-   TR_PRINTF_FORMAT_ATTR(3, 4);
+   OMR_PRINTF_FORMAT_ATTR(3, 4);
 
 class StringBuf : private TR::Uncopyable
    {
@@ -98,7 +94,7 @@ class StringBuf : private TR::Uncopyable
 
    void vappendf(const char *fmt, va_list args);
 
-   void appendf(const char *fmt, ...) TR_PRINTF_FORMAT_ATTR(2, 3);
+   void appendf(const char *fmt, ...) OMR_PRINTF_FORMAT_ATTR(2, 3);
 
    private:
 

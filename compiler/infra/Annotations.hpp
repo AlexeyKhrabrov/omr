@@ -52,6 +52,9 @@
  *
  * \def OMR_UNLIKELY   Marks a branch as being less likely.
  *
+ * \def OMR_PRINTF_FORMAT_ATTR Checks that the arguments of a printf-like
+ *                             function are consistent with the format string
+ *
  * \todo Provide OMR_RETURNS_NONNULL annotation
  * \todo Provide OMR_DEPRECATED      annotation
  * \todo Provide OMR_MALLOC          annotation.
@@ -88,5 +91,14 @@
    #define OMR_LIKELY(expr)   __builtin_expect((expr), 1)
    #define OMR_UNLIKELY(expr) __builtin_expect((expr), 0)
 #endif /* defined(TR_HOST_X86) && defined(OMR_OS_WINDOWS) */
+
+// OMR_PRINTF_FORMAT_ATTR
+#if HOST_COMPILER == COMPILER_GCC || HOST_COMPILER == COMPILER_CLANG
+#define OMR_PRINTF_FORMAT_ATTR(fmtIndex, argsIndex) \
+   __attribute__((format(printf, (fmtIndex), (argsIndex))))
+#else
+#define OMR_PRINTF_FORMAT_ATTR(fmtIndex, argsIndex)
+#endif
+
 
 #endif
