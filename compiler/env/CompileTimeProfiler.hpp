@@ -108,7 +108,7 @@ public:
                TR_VerboseLog::write(" %s", *iter);
                iter++;
                }
-            TR_VerboseLog::writeLine("");
+            TR_VerboseLog::writeLine();
             }
 
          _pid = fork();

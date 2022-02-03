@@ -93,8 +93,11 @@ public:
    // nicely formatted verbose logs
    static void write(const char *format, ...) OMR_PRINTF_FORMAT_ATTR(1, 2);
    static void write(TR_VlogTag tag, const char *format, ...) OMR_PRINTF_FORMAT_ATTR(2, 3);
+   static void write(TR_VlogTag tag);
    static void writeLine(TR_VlogTag tag, const char *format, ...) OMR_PRINTF_FORMAT_ATTR(2, 3);
    static void writeLine(const char *format, ...) OMR_PRINTF_FORMAT_ATTR(1, 2);
+   static void writeLine(TR_VlogTag tag);
+   static void writeLine() { write("\n"); }
    // writeLineLocked is a single line print function, it provides the locks for you
    static void writeLineLocked(TR_VlogTag tag, const char *format, ...) OMR_PRINTF_FORMAT_ATTR(2, 3);
    static void vlogAcquire(); // defined in each front end

@@ -212,7 +212,7 @@ void TR_Debug::dumpOptionHelp(TR::OptionTable * firstOjit, TR::OptionTable * fir
          if (!entryFound)
             {
             entryFound = true;
-            TR_VerboseLog::writeLine(TR_Vlog_INFO,optionCategoryNames[cat]);
+            TR_VerboseLog::writeLine(TR_Vlog_INFO, "%s", optionCategoryNames[cat]);
             }
 
          // Set up the option name
@@ -234,10 +234,10 @@ void TR_Debug::dumpOptionHelp(TR::OptionTable * firstOjit, TR::OptionTable * fir
          // Align option description
          //
          if (currentColumn < DESCRIPTION_START_COLUMN)
-            TR_VerboseLog::write("%*s", DESCRIPTION_START_COLUMN-currentColumn, " ");
+            TR_VerboseLog::write("%*s", DESCRIPTION_START_COLUMN - currentColumn, " ");
          else
             {
-            TR_VerboseLog::writeLine("");
+            TR_VerboseLog::writeLine();
             TR_VerboseLog::write(TR_Vlog_INFO, "%*s", DESCRIPTION_START_COLUMN, " ");
             }
          currentColumn = DESCRIPTION_START_COLUMN;
@@ -259,9 +259,9 @@ void TR_Debug::dumpOptionHelp(TR::OptionTable * firstOjit, TR::OptionTable * fir
                {
                if (lastWordBreak == start)
                   lastWordBreak = i;
-               TR_VerboseLog::write("%.*s", lastWordBreak-start, entry->helpText+start);
+               TR_VerboseLog::write("%.*s", lastWordBreak - start, entry->helpText + start);
                currentColumn = DESCRIPTION_START_COLUMN + DESCRIPTION_TEXT_INDENT;
-               TR_VerboseLog::writeLine("");
+               TR_VerboseLog::writeLine();
                TR_VerboseLog::write(TR_Vlog_INFO, "%*s", currentColumn, " ");
                start = i = ++lastWordBreak;
                continue;
@@ -274,8 +274,8 @@ void TR_Debug::dumpOptionHelp(TR::OptionTable * firstOjit, TR::OptionTable * fir
          TR_VerboseLog::write("%s", entry->helpText+start);
          }
       }
-   TR_VerboseLog::writeLine("");
-   TR_VerboseLog::writeLine(TR_Vlog_INFO, "");
+   TR_VerboseLog::writeLine();
+   TR_VerboseLog::writeLine(TR_Vlog_INFO);
    }
 
 void
@@ -328,11 +328,11 @@ TR_Debug::dumpOptions(
       {
       if(*options)
          TR_VerboseLog::write(",");
-      TR_VerboseLog::write(envOptions);
+      TR_VerboseLog::write("%s", envOptions);
       }
 
-   TR_VerboseLog::writeLine(TR_Vlog_INFO,"");
-   TR_VerboseLog::writeLine(TR_Vlog_INFO,"options in effect:");
+   TR_VerboseLog::writeLine(TR_Vlog_INFO);
+   TR_VerboseLog::writeLine(TR_Vlog_INFO, "options in effect:");
 
    while (ojit->name || ofe->name)
       {
@@ -506,14 +506,14 @@ TR_Debug::dumpOptions(
             TR_VerboseLog::write("}");
             }
 
-         TR_VerboseLog::writeLine("");
+         TR_VerboseLog::writeLine();
          }
       }
 
 #ifdef J9_PROJECT_SPECIFIC
    if (fej9->generateCompressedPointers())
       {
-      TR_VerboseLog::writeLine("");
+      TR_VerboseLog::writeLine();
       TR_VerboseLog::writeLine(TR_Vlog_INFO, "     compressedRefs shiftAmount=%d", TR::Compiler->om.compressedReferenceShift());
       }
 #endif

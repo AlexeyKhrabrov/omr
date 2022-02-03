@@ -3166,13 +3166,10 @@ OMR::Options::validateOptionsTables(void *feBase, TR_FrontEnd *fe)
             }
          TR_ASSERT(categories[i], "No category for help text");
          }
-      if (_numJitEntries > 0 && stricmp_ignore_locale((opt-1)->name, opt->name) >= 0)
+      if (_numJitEntries > 0 && stricmp_ignore_locale((opt - 1)->name, opt->name) >= 0)
          {
-         TR_VerboseLog::CriticalSection vlogLock;
-         TR_VerboseLog::write(TR_Vlog_FAILURE, "JIT option table entries out of order: ");
-         TR_VerboseLog::write((opt-1)->name);
-         TR_VerboseLog::write(", ");
-         TR_VerboseLog::writeLine(opt->name);
+         TR_VerboseLog::writeLineLocked(TR_Vlog_FAILURE, "JIT option table entries out of order: %s, %s",
+                                        (opt - 1)->name, opt->name);
          return false;
          }
 #endif
@@ -3192,13 +3189,10 @@ OMR::Options::validateOptionsTables(void *feBase, TR_FrontEnd *fe)
             }
          TR_ASSERT(categories[i], "No category for help text");
          }
-      if (_numVmEntries > 0 && stricmp_ignore_locale((opt-1)->name, opt->name) >= 0)
+      if (_numVmEntries > 0 && stricmp_ignore_locale((opt - 1)->name, opt->name) >= 0)
          {
-         TR_VerboseLog::CriticalSection vlogLock;
-         TR_VerboseLog::writeLine(TR_Vlog_FAILURE,"FE option table entries out of order: ");
-         TR_VerboseLog::write((opt-1)->name);
-         TR_VerboseLog::write(", ");
-         TR_VerboseLog::write(opt->name);
+         TR_VerboseLog::writeLineLocked(TR_Vlog_FAILURE, "FE option table entries out of order: %s, %s",
+                                        (opt - 1)->name, opt->name);
          return false;
          }
 #endif

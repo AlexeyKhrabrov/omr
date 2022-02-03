@@ -846,21 +846,19 @@ OMR::CodeCacheManager::allocateCodeCacheRepository(size_t repositorySize)
 
       omrthread_jit_write_protect_enable();
 
-      _codeCacheRepositorySegment->adjustAlloc(sizeof(TR::CodeCache*)); // jump over the pointer we setup
+      _codeCacheRepositorySegment->adjustAlloc(sizeof(TR::CodeCache *)); // jump over the pointer we setup
 
       self()->repositoryCodeCacheCreated();
 
       // The difference between coldCodeAlloc and warmCodeAlloc must give us the free space
       _repositoryCodeCache->setWarmCodeAlloc(0);
-      _repositoryCodeCache->setColdCodeAlloc((uint8_t*)(_codeCacheRepositorySegment->segmentTop() - _codeCacheRepositorySegment->segmentAlloc()));
+      _repositoryCodeCache->setColdCodeAlloc((uint8_t *)(_codeCacheRepositorySegment->segmentTop() - _codeCacheRepositorySegment->segmentAlloc()));
 
       if (config.verboseCodeCache())
          {
-         TR_VerboseLog::writeLineLocked(TR_Vlog_CODECACHE, "allocateCodeCacheRepository: size=%u heapBase=%p heapAlloc=%p heapTop=%p",
-                                                           codeCacheSizeAllocated,
-                                                           _codeCacheRepositorySegment->segmentBase(),
-                                                           _codeCacheRepositorySegment->segmentAlloc(),
-                                                           _codeCacheRepositorySegment->segmentTop());
+         TR_VerboseLog::writeLineLocked(TR_Vlog_CODECACHE, "allocateCodeCacheRepository: size=%zu heapBase=%p heapAlloc=%p heapTop=%p",
+                                        codeCacheSizeAllocated, _codeCacheRepositorySegment->segmentBase(),
+                                        _codeCacheRepositorySegment->segmentAlloc(), _codeCacheRepositorySegment->segmentTop());
          }
       }
 
@@ -1079,7 +1077,7 @@ OMR::CodeCacheManager::carveCodeCacheSpaceFromRepository(size_t segmentSize,
    if (start)
       {
       if (config.verboseCodeCache())
-         TR_VerboseLog::writeLineLocked(TR_Vlog_CODECACHE, "carved size=%u range: " POINTER_PRINTF_FORMAT "-" POINTER_PRINTF_FORMAT,
+         TR_VerboseLog::writeLineLocked(TR_Vlog_CODECACHE, "carved size=%zu range: " POINTER_PRINTF_FORMAT "-" POINTER_PRINTF_FORMAT,
                   codeCacheSizeToAllocate, start, end);
       }
    else

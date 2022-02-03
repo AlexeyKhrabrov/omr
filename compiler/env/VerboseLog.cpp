@@ -76,7 +76,7 @@ void TR_VerboseLog::writeLine(TR_VlogTag tag, const char *format, ...)
    va_list args;
    va_start(args, format);
    writeTimeStamp();
-   write(_vlogTable[tag]);
+   write("%s", _vlogTable[tag]);
    vwrite(format, args);
    write("\n");
    va_end(args);
@@ -91,6 +91,13 @@ void TR_VerboseLog::writeLine(const char *format, ...)
    va_end(args);
    }
 
+void TR_VerboseLog::writeLine(TR_VlogTag tag)
+   {
+   TR_ASSERT(tag != TR_Vlog_null, "TR_Vlog_null is not a valid Vlog tag");
+   writeTimeStamp();
+   write("%s\n", _vlogTable[tag]);
+   }
+
 void TR_VerboseLog::writeLineLocked(TR_VlogTag tag, const char *format, ...)
    {
    TR_ASSERT(tag != TR_Vlog_null, "TR_Vlog_null is not a valid Vlog tag");
@@ -98,7 +105,7 @@ void TR_VerboseLog::writeLineLocked(TR_VlogTag tag, const char *format, ...)
    va_list args;
    va_start(args, format);
    writeTimeStamp();
-   write(_vlogTable[tag]);
+   write("%s", _vlogTable[tag]);
    vwrite(format, args);
    write("\n");
    va_end(args);
@@ -118,9 +125,16 @@ void TR_VerboseLog::write(TR_VlogTag tag, const char *format, ...)
    va_list args;
    va_start(args, format);
    writeTimeStamp();
-   write(_vlogTable[tag]);
+   write("%s", _vlogTable[tag]);
    vwrite(format, args);
    va_end(args);
+   }
+
+void TR_VerboseLog::write(TR_VlogTag tag)
+   {
+   TR_ASSERT_FATAL(tag != TR_Vlog_null, "TR_Vlog_null is not a valid Vlog tag");
+   writeTimeStamp();
+   write("%s", _vlogTable[tag]);
    }
 
 void TR_VerboseLog::initialize(void *config)

@@ -226,10 +226,12 @@ OMR::CodeCache::trimCodeMemoryAllocation(void *codeMemoryStart, size_t actualSiz
 
    size_t shrinkage = oldSize - actualSizeInBytes;
 
-   uint8_t *expectedHeapAlloc = (uint8_t *) codeMemoryStart + oldSize;
+   uint8_t *expectedHeapAlloc = (uint8_t *)codeMemoryStart + oldSize;
    if (config.verboseReclamation())
       {
-      TR_VerboseLog::writeLineLocked(TR_Vlog_CODECACHE,"--trimCodeMemoryAllocation-- CC=%p cacheHeader=%p oldSize=%u actualSizeInBytes=%d shrinkage=%u", this, cacheHeader, oldSize, actualSizeInBytes, shrinkage);
+      TR_VerboseLog::writeLineLocked(TR_Vlog_CODECACHE,
+         "--trimCodeMemoryAllocation-- CC=%p cacheHeader=%p oldSize=%zu actualSizeInBytes=%zu shrinkage=%zu",
+         this, cacheHeader, oldSize, actualSizeInBytes, shrinkage);
       }
 
    if (expectedHeapAlloc == _warmCodeAlloc)
@@ -962,12 +964,13 @@ OMR::CodeCache::addFreeBlock2WithCallSite(uint8_t *start,
    start = (uint8_t *)align((size_t)start, round);
 
    // make sure aligning start didn't push it past end
-   if (end <= (start+sizeof(CodeCacheFreeCacheBlock)))
+   if (end <= (start + sizeof(CodeCacheFreeCacheBlock)))
       {
       if (config.verboseReclamation())
          {
-         TR_VerboseLog::writeLineLocked(TR_Vlog_FAILURE,"addFreeBlock2[%s.%d]: failed to add free block. start = 0x%016x end = 0x%016x alignment = 0x%04x sizeof(CodeCacheFreeCacheBlock) = 0x%08x",
-            file, lineNumber, start_o, end, config.codeCacheAlignment(), sizeof(CodeCacheFreeCacheBlock));
+         TR_VerboseLog::writeLineLocked(TR_Vlog_FAILURE,
+            "addFreeBlock2[%s.%d]: failed to add free block. start = 0x%016zx end = 0x%016zx alignment = 0x%04zx sizeof(CodeCacheFreeCacheBlock) = 0x%08zx",
+            file, lineNumber, (uintptr_t)start_o, (uintptr_t)end, config.codeCacheAlignment(), sizeof(CodeCacheFreeCacheBlock));
          }
       return false;
       }
@@ -1082,12 +1085,15 @@ OMR::CodeCache::addFreeBlock2WithCallSite(uint8_t *start,
 
    if (config.verboseReclamation())
       {
-      TR_VerboseLog::writeLineLocked(TR_Vlog_CODECACHE,"--ccr-- addFreeBlock2WithCallSite CC=%p start=%p end=%p mergedBlock=%p link=%p link->_size=%u, _sizeOfLargestFreeWarmBlock=%d _sizeOfLargestFreeColdBlock=%d warmCodeAlloc=%p coldBlockAlloc=%p",
-         this,  (void*)start, (void*)end, mergedBlock, link, (uint32_t)link->_size, _sizeOfLargestFreeWarmBlock, _sizeOfLargestFreeColdBlock, _warmCodeAlloc, _coldCodeAlloc);
+      TR_VerboseLog::writeLineLocked(TR_Vlog_CODECACHE,
+         "--ccr-- addFreeBlock2WithCallSite CC=%p start=%p end=%p mergedBlock=%p link=%p link->_size=%zu, "
+         "_sizeOfLargestFreeWarmBlock=%zu _sizeOfLargestFreeColdBlock=%zu warmCodeAlloc=%p coldBlockAlloc=%p",
+         this, (void *)start, (void *)end, mergedBlock, link, link->_size, _sizeOfLargestFreeWarmBlock,
+         _sizeOfLargestFreeColdBlock, _warmCodeAlloc, _coldCodeAlloc);
       }
 #ifdef DEBUG
    uint8_t *paintStart = start + sizeof(CodeCacheFreeCacheBlock);
-   memset((void*)paintStart, 0xcc, ((CodeCacheFreeCacheBlock*)start)->_size - sizeof(CodeCacheFreeCacheBlock));
+   memset((void *)paintStart, 0xcc, ((CodeCacheFreeCacheBlock *)start)->_size - sizeof(CodeCacheFreeCacheBlock));
 #endif
 
    if (config.doSanityChecks())
@@ -1230,7 +1236,9 @@ OMR::CodeCache::findFreeBlock(size_t size, bool isCold, bool isMethodHeaderNeede
      //fprintf(stderr, "--ccr-- reallocate free'd block of size %d\n", size);
      if (config.verboseReclamation())
          {
-         TR_VerboseLog::writeLineLocked(TR_Vlog_CODECACHE,"--ccr- findFreeBlock: CodeCache=%p size=%u isCold=%d bestFitLink=%p bestFitLink->size=%u leftBlock=%p", this, size, isCold, bestFitLink, bestFitLink->_size, leftBlock);
+         TR_VerboseLog::writeLineLocked(TR_Vlog_CODECACHE,
+            "--ccr- findFreeBlock: CodeCache=%p size=%zu isCold=%d bestFitLink=%p bestFitLink->size=%zu leftBlock=%p",
+            this, size, isCold, bestFitLink, bestFitLink->_size, leftBlock);
          }
 
       _manager->increaseCurrTotalUsedInBytes(bestFitLink->_size);
