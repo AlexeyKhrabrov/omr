@@ -79,14 +79,14 @@
  * [1]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Ri-expects
  */
 
-
 #ifndef TR_ASSERT_HPP
 #define TR_ASSERT_HPP
 
-#include "infra/Annotations.hpp"                // OMR_NORETURN
+#include "infra/Annotations.hpp" // OMR_NORETURN, OMR_PRINTF_FORMAT_ATTR
 #include "compile/CompilationException.hpp"
 
 #include <cstddef>
+
 
 namespace TR
    {
@@ -154,14 +154,14 @@ namespace TR
 
    // Don't use these directly.
    //
-   // Use the TR_ASSERT* macros instead as they control the string
-   // contents in production builds.
-   void OMR_NORETURN fatal_assertion(const char *file, int line, const char *condition, const char *format, ...);
-   void OMR_NORETURN fatal_assertion_with_detail(const AssertionContext& ctx, const char *file, int line, const char *condition, const char *format, ...);
+   // Use the TR_ASSERT* macros instead as they control the string contents in production builds.
+   void OMR_NORETURN fatal_assertion(const char *file, int line, const char *condition,
+                                     const char *format, ...) OMR_PRINTF_FORMAT_ATTR(4, 5);
+   void OMR_NORETURN fatal_assertion_with_detail(const AssertionContext &ctx, const char *file, int line,
+                                                 const char *condition, const char *format, ...) OMR_PRINTF_FORMAT_ATTR(5, 6);
 
-   // Non fatal assertions may in some circumstances return, so do not mark them as
-   // no-return.
-   void              assertion(const char *file, int line, const char *condition, const char *format, ...);
+   // Non fatal assertions may in some circumstances return, so do not mark them as no-return.
+   void assertion(const char *file, int line, const char *condition, const char *format, ...) OMR_PRINTF_FORMAT_ATTR(4, 5);
 
    /**
     * Assertion failure exception type.
@@ -170,7 +170,7 @@ namespace TR
     */
    struct AssertionFailure : public virtual CompilationException
       {
-      virtual const char* what() const throw() { return "Assertion Failure"; }
+      virtual const char *what() const throw() { return "Assertion Failure"; }
       };
 
    }
