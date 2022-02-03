@@ -21,6 +21,8 @@
 
 #include "runtime/OMRRuntimeAssumptions.hpp"
 #include "env/jittypes.h"
+#include "omrformatconsts.h"
+
 
 #if defined(__IBMCPP__) && !defined(AIXPPC) && !defined(LINUXPPC)
 #define ASM_CALL __cdecl
@@ -49,9 +51,10 @@ TR::PatchSites::PatchSites(TR_PersistentMemory *pm, size_t maxSize) :
     _firstLocation(NULL),
     _lastLocation(NULL)
    {
-   size_t bytes = sizeof(uint8_t*) * 2 * maxSize;
-   TR_ASSERT(maxSize == bytes/(sizeof(uint8_t*) * 2),  "Requested number of patch sites %d exceeds supported size\n", maxSize);
-   _patchPoints = (uint8_t**) pm->jitPersistentAlloc(bytes);
+   size_t bytes = sizeof(uint8_t *) * 2 * maxSize;
+   TR_ASSERT(maxSize == bytes / (sizeof(uint8_t *) * 2),
+             "Requested number of patch sites %" OMR_PRIuSIZE " exceeds supported size", maxSize);
+   _patchPoints = (uint8_t **)pm->jitPersistentAlloc(bytes);
    }
 
 /**
@@ -59,7 +62,7 @@ TR::PatchSites::PatchSites(TR_PersistentMemory *pm, size_t maxSize) :
  */
 void TR::PatchSites::add(uint8_t *location, uint8_t *destination)
    {
-   TR_ASSERT_FATAL(_size < _maxSize, "Cannot add more patch sites, max size is %d", _maxSize);
+   TR_ASSERT_FATAL(_size < _maxSize, "Cannot add more patch sites, max size is %" OMR_PRIuSIZE, _maxSize);
    _patchPoints[_size * 2] = location;
    _patchPoints[_size * 2 + 1] = destination;
    _size++;
@@ -113,12 +116,13 @@ bool TR::PatchSites::internalContainsLocation(uint8_t *location)
 
 uint8_t *TR::PatchSites::getLocation(size_t index)
    {
-   TR_ASSERT(index < _size, "Invalid index for patch site %d but size %d", index, _size);
+   TR_ASSERT(index < _size, "Invalid index for patch site %" OMR_PRIuSIZE " but size %" OMR_PRIuSIZE, index, _size);
    return _patchPoints[index * 2];
    }
+
 uint8_t *TR::PatchSites::getDestination(size_t index)
    {
-   TR_ASSERT(index < _size, "Invalid index for patch site %d but size %d", index, _size);
+   TR_ASSERT(index < _size, "Invalid index for patch site %" OMR_PRIuSIZE " but size %" OMR_PRIuSIZE, index, _size);
    return _patchPoints[index * 2 + 1];
    }
 

@@ -56,11 +56,11 @@ void TRHashTab_testit()
 #endif
 
 
-void * TR_HashTab::getData(TR_HashId id)
+void *TR_HashTab::getData(TR_HashId id)
    {
-   TR_HashTableEntry * entry = _table[id];
-   TR_ASSERT(id < _tableSize,"%d >= %d\n",id,_tableSize);
-   TR_ASSERT(entry,"entry is null for id %d\n",id);
+   TR_HashTableEntry *entry = _table[id];
+   TR_ASSERT(id < _tableSize, "%lu >= %u", id, _tableSize);
+   TR_ASSERT(entry, "entry is null for id %lu", id);
    return entry->_data;
    }
 
@@ -155,16 +155,17 @@ bool TR_HashTab::growTo(uint32_t newSize)
    * return true if element added, false if already in table.  hashIndex set to
    * element.
    */
-bool TR_HashTab::addElement(void * key,TR_HashId &hashIndex,TR_HashTableEntry *entry)
+bool TR_HashTab::addElement(void *key, TR_HashId &hashIndex, TR_HashTableEntry *entry)
    {
-   if (_nextFree == _tableSize-1)
+   if (_nextFree == _tableSize - 1)
       {
-      growAndRehash(uint32_t(_closedAreaSize *1.25)); // grow by 25%
+      growAndRehash(uint32_t(_closedAreaSize * 1.25)); // grow by 25%
       }
 
-   if (locate(key,hashIndex)) return false;
+   if (locate(key, hashIndex))
+      return false;
 
-   TR_ASSERT(hashIndex < _tableSize,"index too big %d >=%d\n",hashIndex,_tableSize);
+   TR_ASSERT(hashIndex < _tableSize, "index too big %lu >= %u", hashIndex, _tableSize);
 
    entry->_chain = 0;
    if (NULL == _table[hashIndex])
@@ -182,14 +183,14 @@ bool TR_HashTab::addElement(void * key,TR_HashId &hashIndex,TR_HashTableEntry *e
       if (0 == nextIndex)
          {
          nextIndex = _nextFree++;
-         TR_ASSERT(_nextFree < _tableSize,"out of free space: index %d (%d)\n",nextIndex,_tableSize);
+         TR_ASSERT(_nextFree < _tableSize, "out of free space: index %lu (%u)", nextIndex, _tableSize);
 
          _table[hashIndex]->_chain = nextIndex;
          _table[nextIndex] = entry;
          hashIndex = nextIndex;
          return true;
          }
-      } while(!isEqual(key,_table[hashIndex]->_key));
+      } while (!isEqual(key,_table[hashIndex]->_key));
 
    return false;
    }

@@ -4681,11 +4681,9 @@ void TR_LoopVersioner::versionNaturalLoop(TR_RegionStructure *whileLoop, List<TR
    // Due to RAS changes to make each loop version test a transformation, disableOptTransformations or lastOptTransformationIndex can now potentially remove all the tests above the 2 versioned loops.  When there are two versions of the loop, it is necessary that there be at least one test at the top.  Therefore, the following is required to ensure that a test is created.
    size_t comparisonTreesCount = comparisonTrees.getSize();
    size_t privatizationCount = _curLoop->_privTemps.size();
-   TR_ASSERT_FATAL(
-      privatizationCount <= comparisonTreesCount,
-      "more privatizations (%d) than entries in comparisonTrees (%d)",
-      privatizationCount,
-      comparisonTreesCount);
+   TR_ASSERT_FATAL(privatizationCount <= comparisonTreesCount,
+                   "more privatizations (%" OMR_PRIuSIZE ") than entries in comparisonTrees (%" OMR_PRIuSIZE ")",
+                   privatizationCount, comparisonTreesCount);
 
    size_t testCount = comparisonTreesCount - privatizationCount;
    if (testCount == 0)

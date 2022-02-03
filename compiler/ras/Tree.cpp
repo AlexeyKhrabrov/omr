@@ -2547,7 +2547,7 @@ TR_Debug::verifyBlocksPass2(TR::Node *node)
                  getName(node), node->getLocalIndex());
          if (getFile() != NULL)
             trfprintf(getFile(), buffer);
-         TR_ASSERT( debug("fixTrees"), buffer);
+         TR_ASSERT(debug("fixTrees"), "%s", buffer);
          }
       }
    }

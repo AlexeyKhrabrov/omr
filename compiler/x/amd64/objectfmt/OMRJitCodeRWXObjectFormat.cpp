@@ -225,7 +225,8 @@ OMR::X86::AMD64::JitCodeRWXObjectFormat::encodeFunctionCall(TR::FunctionCallData
       intptr_t nextInstructionAddress = reinterpret_cast<intptr_t>(data.bufferAddress + 5);
 
       TR_ASSERT_FATAL(data.cg->comp()->target().cpu.isTargetWithinRIPRange(targetAddress, nextInstructionAddress),
-                      "Target function address %" OMR_PRIxPTR " not reachable from %" OMR_PRIxPTR, targetAddress, data.bufferAddress);
+                      "Target function address %" OMR_PRIxPTR " not reachable from %" OMR_PRIxPTR,
+                      targetAddress, (intptr_t)data.bufferAddress);
 
       disp32 = static_cast<int32_t>(targetAddress - nextInstructionAddress);
       }

@@ -5771,35 +5771,34 @@ TR_InductionVariableAnalysis::analyzeAcyclicRegion(TR_RegionStructure *region, T
 
 void TR_InductionVariableAnalysis::analyzeBlock(TR_BlockStructure *structure, TR_RegionStructure *loop)
    {
-   TR::Block          *block     = structure->getBlock();
-   DeltaInfo        **inSet     = getBlockInfo(block);
-   TR_BitVector *candidates     = ((AnalysisInfo*)loop->getAnalysisInfo())->getLoopLocalDefs();
+   TR::Block         *block = structure->getBlock();
+   DeltaInfo        **inSet = getBlockInfo(block);
+   TR_BitVector *candidates = ((AnalysisInfo *)loop->getAnalysisInfo())->getLoopLocalDefs();
 
     if (trace())
        traceMsg(comp(), "analyzeBlock %d\n", block->getNumber());
 
-   TR_ASSERT(inSet, "no info available for block_%d");
+   TR_ASSERT(inSet, "no info available for block_%d", block->getNumber());
 
+   if (trace())
+      {
+      traceMsg(comp(), "In Set:\n");
 
-    if (trace())
-       {
-       traceMsg(comp(), "In Set:\n");
-
-       TR_BitVectorIterator it(*candidates);
-       while (it.hasMoreElements())
-          {
-          int32_t refNum = it.getNextElement();
-          TR::SymbolReference *symRef = comp()->getSymRefTab()->getSymRef(refNum);
-          int32_t refIndex = symRef->getSymbol()->getLocalIndex();
-          DeltaInfo *inSymbol = inSet[refIndex];
-          traceMsg(comp(), "\t%d %d %p symRef=%p symbol=%p: ",
+      TR_BitVectorIterator it(*candidates);
+      while (it.hasMoreElements())
+         {
+         int32_t refNum = it.getNextElement();
+         TR::SymbolReference *symRef = comp()->getSymRefTab()->getSymRef(refNum);
+         int32_t refIndex = symRef->getSymbol()->getLocalIndex();
+         DeltaInfo *inSymbol = inSet[refIndex];
+         traceMsg(comp(), "\t%d %d %p symRef=%p symbol=%p: ",
                   refNum, refIndex, inSymbol, symRef, symRef->getSymbol());
-          if (inSymbol)
-             printDeltaInfo(inSymbol);
-          else
-             traceMsg(comp(), "null\n");
-          }
-       }
+         if (inSymbol)
+            printDeltaInfo(inSymbol);
+         else
+            traceMsg(comp(), "null\n");
+         }
+      }
 
    // Process the contents of the block
    //

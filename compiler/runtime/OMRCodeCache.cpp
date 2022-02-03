@@ -1202,17 +1202,17 @@ OMR::CodeCache::findFreeBlock(size_t size, bool isCold, bool isMethodHeaderNeede
    TR_ASSERT(biggestLink, "There must be a biggestLink");
    TR_ASSERT(bestFitLink, "There must be a bestFitLink");
 
-   TR::CodeCacheConfig & config = _manager->codeCacheConfig();
+   TR::CodeCacheConfig &config = _manager->codeCacheConfig();
    if (!isCold)
       {
-      TR_ASSERT(!config.codeCacheFreeBlockRecylingEnabled() ||
-              _sizeOfLargestFreeWarmBlock == biggestLink->_size, "_sizeOfLargestFreeWarmBlock=%d  biggestLink->_size=%d",
-           _sizeOfLargestFreeWarmBlock, (int32_t)biggestLink->_size);
+      TR_ASSERT(!config.codeCacheFreeBlockRecylingEnabled() || _sizeOfLargestFreeWarmBlock == biggestLink->_size,
+                "_sizeOfLargestFreeWarmBlock=%" OMR_PRIuSIZE "  biggestLink->_size=%" OMR_PRIuSIZE,
+                _sizeOfLargestFreeWarmBlock, biggestLink->_size);
       }
    else
       {
-      TR_ASSERT(!config.codeCacheFreeBlockRecylingEnabled() ||
-         _sizeOfLargestFreeColdBlock == biggestLink->_size, "assertion failure");
+      TR_ASSERT(!config.codeCacheFreeBlockRecylingEnabled() || _sizeOfLargestFreeColdBlock == biggestLink->_size,
+                "assertion failure");
       }
 
    if (bestFitLink)

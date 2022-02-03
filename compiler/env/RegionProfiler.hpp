@@ -59,7 +59,8 @@ public:
          va_list args;
          va_start(args, format);
          int len = vsnprintf(_identifier, sizeof(_identifier), format, args);
-         TR_ASSERT(len < sizeof(_identifier), "Region profiler identifier truncated as it exceeded max length %d", sizeof(_identifier));
+         TR_ASSERT(len < sizeof(_identifier), "Region profiler identifier truncated as it exceeded max length %" OMR_PRIuSIZE,
+                   sizeof(_identifier));
          _identifier[sizeof(_identifier) - 1] = '\0';
          va_end(args);
          }

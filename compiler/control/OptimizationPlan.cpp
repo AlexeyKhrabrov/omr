@@ -56,15 +56,17 @@ void TR_OptimizationPlan::freeOptimizationPlan(TR_OptimizationPlan *plan)
       //
       if (_poolSize > POOL_THRESHOLD)
          {
-         do {
+         do
+            {
             TR_OptimizationPlan *p = _pool;
             _pool = _pool->_next;
             p->_next = listToBeFreed;
             listToBeFreed = p;
             _poolSize--;
             _totalNumAllocatedPlans--;
-            TR_ASSERT(_totalNumAllocatedPlans >= _poolSize, "Error: _totalNumAllocatedPlans=%d poolSize=%d\n", _totalNumAllocatedPlans, _poolSize);
-            }while(_poolSize > POOL_THRESHOLD/2);
+            TR_ASSERT(_totalNumAllocatedPlans >= _poolSize, "Error: _totalNumAllocatedPlans=%lu poolSize=%lu",
+                      _totalNumAllocatedPlans, _poolSize);
+            } while (_poolSize > POOL_THRESHOLD / 2);
          }
 
       _optimizationPlanMonitor->exit();
@@ -75,7 +77,7 @@ void TR_OptimizationPlan::freeOptimizationPlan(TR_OptimizationPlan *plan)
             TR_OptimizationPlan *p = listToBeFreed;
             listToBeFreed = listToBeFreed->_next;
             jitPersistentFree(p);
-            }while(listToBeFreed);
+            } while (listToBeFreed);
          }
       }
    }

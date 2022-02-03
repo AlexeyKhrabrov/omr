@@ -2363,13 +2363,13 @@ const char callRegName32[][5] =
       "eax","esi","edx","ecx"
    };
 
-static const char*
-getInterpretedMethodNameHelper(TR::MethodSymbol *methodSymbol,
-                               TR::DataType     type){
+static const char *
+getInterpretedMethodNameHelper(TR::MethodSymbol *methodSymbol, TR::DataType type)
+   {
    if (methodSymbol->isVMInternalNative() || methodSymbol->isJITInternalNative())
       return "icallVMprJavaSendNativeStatic";
 
-   switch(type)
+   switch (type)
       {
       case TR::NoType:
          return "interpreterVoidStaticGlue";
@@ -2386,10 +2386,10 @@ getInterpretedMethodNameHelper(TR::MethodSymbol *methodSymbol,
       case TR::Double:
          return "interpreterDoubleStaticGlue";
       default:
-         TR_ASSERT(0, "Unsupported data type: %d", type);
+         TR_ASSERT(false, "Unsupported data type: %d", type.getDataType());
          return "UNKNOWN interpreted method type";
       }
-}
+   }
 
 
 //
@@ -2445,7 +2445,7 @@ TR_Debug::print(TR::FILE *pOutFile, TR::X86CallSnippet  * snippet)
                   bufferPos+=5;
                   break;
                default:
-                  TR_ASSERT(0, "unknown data type: %d", type);
+                  TR_ASSERT(false, "unknown data type: %d", type.getDataType());
                   break;
                }
 

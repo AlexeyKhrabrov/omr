@@ -781,9 +781,11 @@ TR_OSRCompilationData::buildFinalMap (int32_t callerIndex,
  * This function build the OSRCodeBlock map and the prepareForOSRCall map
  */
 void
-TR_OSRMethodData::buildDefiningMapForOSRCodeBlockAndPrepareForOSRCall(TR::Block *block, DefiningMap *osrCodeBlockMap, DefiningMap *prepareForOSRCallMap)
+TR_OSRMethodData::buildDefiningMapForOSRCodeBlockAndPrepareForOSRCall(TR::Block *block, DefiningMap *osrCodeBlockMap,
+                                                                      DefiningMap *prepareForOSRCallMap)
    {
-   TR_ASSERT(block->getSuccessors().size() == 1, "OSRCodeBlock should have one successor but block_%d has %d", block->getNumber(), block->getSuccessors().size());
+   TR_ASSERT(block->getSuccessors().size() == 1, "OSRCodeBlock should have one successor but block_%d has %" OMR_PRIuSIZE,
+             block->getNumber(), block->getSuccessors().size());
    if (comp()->getOption(TR_TraceOSR))
       traceMsg(comp(), "buildDefiningMapForOSRCodeBlockAndPrepareForOSRCall block_%d\n", block->getNumber());
    buildDefiningMap(block, osrCodeBlockMap, prepareForOSRCallMap);
@@ -810,7 +812,8 @@ TR_OSRMethodData::buildDefiningMapForOSRCodeBlockAndPrepareForOSRCall(TR::Block 
 void
 TR_OSRMethodData::buildDefiningMapForBlock(TR::Block *block, DefiningMap *blockMap)
    {
-   TR_ASSERT(block->getSuccessors().size() == 1, "OSRCatchBlock should have one successor but block_%d has %d", block->getNumber(), block->getSuccessors().size());
+   TR_ASSERT(block->getSuccessors().size() == 1, "OSRCatchBlock should have one successor but block_%d has %" OMR_PRIuSIZE,
+             block->getNumber(), block->getSuccessors().size());
    if (comp()->getOption(TR_TraceOSR))
       traceMsg(comp(), "buildDefiningMapForBlock block_%d\n", block->getNumber());
    buildDefiningMap(block, blockMap);

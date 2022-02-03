@@ -31,9 +31,10 @@ TR::AbsOpArray* TR::AbsOpArray::clone(TR::Region& region) const
    return copy;
    }
 
-void TR::AbsOpArray::merge(const TR::AbsOpArray* other, TR::Region& region)
+void TR::AbsOpArray::merge(const TR::AbsOpArray *other, TR::Region &region)
    {
-   TR_ASSERT_FATAL(other->size() == size(), "Op Array Size not equal! other:%d vs self:%d\n", other->size(), size());
+   TR_ASSERT_FATAL(other->size() == size(), "Op Array Size not equal! other:%" OMR_PRIuSIZE " vs self:%" OMR_PRIuSIZE,
+                   other->size(), size());
 
    for (auto i = 0; i < size(); i++)
       {
@@ -62,17 +63,17 @@ void TR::AbsOpArray::merge(const TR::AbsOpArray* other, TR::Region& region)
 
 void TR::AbsOpArray::set(uint32_t index, TR::AbsValue *value)
    {
-   TR_ASSERT_FATAL(index < size(), "Index out of range! Max array size: %d, Index: %d\n", size(), index);
+   TR_ASSERT_FATAL(index < size(), "Index out of range! Max array size: %" OMR_PRIuSIZE ", Index: %d", size(), index);
    _container[index] = value;
    }
 
 TR::AbsValue* TR::AbsOpArray::at(uint32_t index) const
    {
-   TR_ASSERT_FATAL(index < size(), "Index out of range! Max array size: %d, Index: %d\n", size(), index);
+   TR_ASSERT_FATAL(index < size(), "Index out of range! Max array size: %" OMR_PRIuSIZE ", Index: %d", size(), index);
    return _container[index]; 
    }
 
-void TR::AbsOpArray::print(TR::Compilation* comp) const
+void TR::AbsOpArray::print(TR::Compilation *comp) const
    {
    traceMsg(comp, "Contents of Abstract Local Variable Array:\n");
    for (auto i = 0; i < size(); i++)

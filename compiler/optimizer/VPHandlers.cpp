@@ -5594,7 +5594,7 @@ TR::Node *constrainCall(OMR::ValuePropagation *vp, TR::Node *node)
             }
          else
             {
-            TR_ASSERT(isLongAbs,"");   // sanity check that no other cases get in here by mistake
+            TR_ASSERT(isLongAbs, "isLongAbs must be true"); // sanity check that no other cases get in here by mistake
             positiveConstraint = TR::VPLongRange::create(vp, 0, TR::getMaxSigned<TR::Int64>());
             couldBeMinValue = (operand == NULL || operand->getLowLong() == TR::getMinSigned<TR::Int64>());
             }
@@ -5606,7 +5606,7 @@ TR::Node *constrainCall(OMR::ValuePropagation *vp, TR::Node *node)
                minValueConstraint = TR::VPIntConst::create(vp, TR::getMinSigned<TR::Int32>());
             else
                {
-               TR_ASSERT(isLongAbs,"");   // sanity check that no other cases get in here by mistake
+               TR_ASSERT(isLongAbs, "isLongAbs must be true"); // sanity check that no other cases get in here by mistake
                minValueConstraint = TR::VPLongConst::create(vp, TR::getMinSigned<TR::Int64>());
                }
             absConstraint = TR::VPMergedConstraints::create(vp, minValueConstraint, positiveConstraint);

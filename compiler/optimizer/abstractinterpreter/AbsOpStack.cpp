@@ -39,11 +39,13 @@ TR::AbsValue* TR::AbsOpStack::pop()
    return value;
    }
 
-void TR::AbsOpStack::merge(const TR::AbsOpStack* other, TR::Region& region)
+void TR::AbsOpStack::merge(const TR::AbsOpStack *other, TR::Region &region)
    {
-   TR_ASSERT_FATAL(other->_container.size() == _container.size(), "Stacks have different sizes! other: %d vs self: %d", other->_container.size(), _container.size());
+   TR_ASSERT_FATAL(other->_container.size() == _container.size(),
+                   "Stacks have different sizes! other: %" OMR_PRIuSIZE " vs self: %" OMR_PRIuSIZE,
+                   other->_container.size(), _container.size());
 
-   for (size_t i = 0; i < _container.size(); i ++)
+   for (size_t i = 0; i < _container.size(); i++)
       {
       if (_container[i] == NULL)
          _container[i] = other->_container[i]->clone(region);

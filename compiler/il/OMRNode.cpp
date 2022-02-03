@@ -2111,7 +2111,7 @@ OMR::Node::isConstZeroBytes()
       case TR::Double:
          return self()->getDoubleBits() == 0;
       default:
-         TR_ASSERT(false, "Unrecognized const node %s can't be checked for zero bytes");
+         TR_ASSERT(false, "Unrecognized const node %s can't be checked for zero bytes", self()->getOpCode().getName());
          return false;
       }
    }
@@ -3062,8 +3062,8 @@ OMR::Node::getMonitorClass(TR_ResolvedMethod * vmMethod)
 TR_OpaqueClassBlock *
 OMR::Node::getMonitorClassInNode()
    {
-   TR_ASSERT(self()->hasMonitorClassInNode(),"Node %p does not have monitor class in Node");
-   TR::Node  * classz = (self()->getOpCodeValue() != TR::tstart) ? self()->getChild(1) : self()->getChild(4);
+   TR_ASSERT(self()->hasMonitorClassInNode(), "Node %p does not have monitor class in Node", self());
+   TR::Node *classz = (self()->getOpCodeValue() != TR::tstart) ? self()->getChild(1) : self()->getChild(4);
    return (TR_OpaqueClassBlock *)classz;
    }
 

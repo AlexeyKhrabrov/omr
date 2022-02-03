@@ -2376,11 +2376,14 @@ OMR::CodeGenerator::emitSnippets()
       codeOffset = (*iterator)->emitSnippet();
       if (codeOffset != NULL)
          {
-         TR_ASSERT((*iterator)->getLength(static_cast<int32_t>(self()->getBinaryBufferCursor()-self()->getBinaryBufferStart())) + self()->getBinaryBufferCursor() >= codeOffset,
-                 "%s length estimate must be conservatively large (snippet @ " POINTER_PRINTF_FORMAT ", estimate=%d, actual=%d)",
-                 self()->getDebug()->getName(*iterator), *iterator,
-                 (*iterator)->getLength(static_cast<int32_t>(self()->getBinaryBufferCursor()-self()->getBinaryBufferStart())),
-                 codeOffset - self()->getBinaryBufferCursor());
+         TR_ASSERT(
+            (*iterator)->getLength(static_cast<int32_t>(self()->getBinaryBufferCursor() - self()->getBinaryBufferStart())) +
+            self()->getBinaryBufferCursor() >= codeOffset,
+            "%s length estimate must be conservatively large (snippet @ " POINTER_PRINTF_FORMAT ", estimate=%d, actual=%" OMR_PRIuPTR ")",
+            self()->getDebug()->getName(*iterator), *iterator,
+            (*iterator)->getLength(static_cast<int32_t>(self()->getBinaryBufferCursor() - self()->getBinaryBufferStart())),
+            codeOffset - self()->getBinaryBufferCursor()
+         );
          self()->setBinaryBufferCursor(codeOffset);
          }
       }

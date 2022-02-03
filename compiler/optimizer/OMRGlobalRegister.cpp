@@ -245,7 +245,7 @@ OMR::GlobalRegister::createStoreToRegister(TR::TreeTop * prevTreeTop, TR::Node *
          case 4: dt = TR::Int32; break;
          case 8: dt = TR::Int64; break;
          default:
-            TR_ASSERT(false,"unsupported size %d for aggregate in GRA\n",rc->getSymbol()->getSize());
+            TR_ASSERT(false, "unsupported size %zu for aggregate in GRA", rc->getSymbol()->getSize());
             break;
          }
       }

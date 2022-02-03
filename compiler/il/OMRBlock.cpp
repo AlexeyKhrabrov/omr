@@ -2211,7 +2211,9 @@ OMR::Block::takeGlRegDeps(TR::Compilation *comp, TR::Node *glRegDeps)
 TR::TreeTop *
 OMR::Block::getExceptingTree()
    {
-   TR_ASSERT(self()->getExceptionSuccessors().size() <= 1,"routine only works when block has 0 or 1 (and not %d) exception edges\n",self()->getExceptionSuccessors().size());
+   TR_ASSERT(self()->getExceptionSuccessors().size() <= 1,
+             "routine only works when block has 0 or 1 (and not %" OMR_PRIuSIZE ") exception edges",
+             self()->getExceptionSuccessors().size());
    for (TR::TreeTop *tt = self()->getEntry(); tt != self()->getExit(); tt = tt->getNextTreeTop())
       {
       if (tt->getNode()->exceptionsRaised())

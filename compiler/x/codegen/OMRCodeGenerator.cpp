@@ -2098,14 +2098,13 @@ void OMR::X86::CodeGenerator::doBinaryEncoding()
    //
    while (cursorInstruction)
       {
-      uint8_t * const instructionStart = self()->getBinaryBufferCursor();
+      uint8_t *const instructionStart = self()->getBinaryBufferCursor();
       self()->setBinaryBufferCursor(cursorInstruction->generateBinaryEncoding());
       TR_ASSERT(cursorInstruction->getEstimatedBinaryLength() >= self()->getBinaryBufferCursor() - instructionStart,
-              "Instruction length estimate must be conservatively large (instr=%s, opcode=%s, estimate=%d, actual=%d",
-              self()->getDebug()? self()->getDebug()->getName(cursorInstruction) : "(unknown)",
-              self()->getDebug()? self()->getDebug()->getOpCodeName(&cursorInstruction->getOpCode()) : "(unknown)",
-              cursorInstruction->getEstimatedBinaryLength(),
-              self()->getBinaryBufferCursor() - instructionStart);
+                "Instruction length estimate must be conservatively large (instr=%s, opcode=%s, estimate=%d, actual=%" OMR_PRIuPTR,
+                self()->getDebug() ? self()->getDebug()->getName(cursorInstruction) : "(unknown)",
+                self()->getDebug() ? self()->getDebug()->getOpCodeName(&cursorInstruction->getOpCode()) : "(unknown)",
+                cursorInstruction->getEstimatedBinaryLength(), self()->getBinaryBufferCursor() - instructionStart);
 
       if (self()->comp()->target().is64Bit() &&
           (cursorInstruction->getOpCodeValue() == TR::InstOpCode::proc))

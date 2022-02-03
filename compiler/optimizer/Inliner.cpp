@@ -424,16 +424,16 @@ TR_InlinerBase::linkOSRCodeBlocks()
       if (calleeOSRCodeBlock->isUnreachable())
          continue;
 
-      TR::TreeTop* lastTT = calleeOSRCodeBlock->getLastRealTreeTop();
-      TR::Node* lastNode = lastTT->getNode();
+      TR::TreeTop *lastTT = calleeOSRCodeBlock->getLastRealTreeTop();
+      TR::Node *lastNode = lastTT->getNode();
       TR_ASSERT(lastNode->getOpCode().isGoto() || lastNode->getOpCode().isReturn(),
-         "last treetop of a non-top-level caller OSR code block is neither a goto nor a return\n");
+                "last treetop of a non-top-level caller OSR code block is neither a goto nor a return");
 
       TR::Block *callerOSRCodeBlock = compData->findCallerOSRMethodData(osrMethodData)->getOSRCodeBlock();
-      TR_ASSERT(callerOSRCodeBlock != NULL, "caller's osr code block is empty\n");
-      TR::Node *gotoNode =
-         TR::Node::create(lastNode, TR::Goto, 0, callerOSRCodeBlock->getEntry());
-      TR_ASSERT((calleeOSRCodeBlock->getSuccessors().size() == 1), "calleeOSRCodeBlock %d(%x) has zero or more than one successor\n", calleeOSRCodeBlock->getNumber(), calleeOSRCodeBlock);
+      TR_ASSERT(callerOSRCodeBlock != NULL, "caller's osr code block is empty");
+      TR::Node *gotoNode = TR::Node::create(lastNode, TR::Goto, 0, callerOSRCodeBlock->getEntry());
+      TR_ASSERT(calleeOSRCodeBlock->getSuccessors().size() == 1, "calleeOSRCodeBlock %d(%p) has zero or more than one successor",
+                calleeOSRCodeBlock->getNumber(), calleeOSRCodeBlock);
       comp()->getFlowGraph()->removeEdge(calleeOSRCodeBlock->getSuccessors().front());
       lastTT->unlink(true);
 
