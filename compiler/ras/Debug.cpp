@@ -4820,7 +4820,7 @@ TR_Debug::traceRegisterAssigned(TR_RegisterAssignmentFlags flags, TR::Register *
    if (virtReg->isPlaceholderReg() &&
        !_comp->getOption(TR_TraceRA))
       return;
-   char buf[30];
+   char buf[128];
    const char *preCoercionSymbol = flags.testAny(TR_PreDependencyCoercion) ? "!" : "";
    const char *postCoercionSymbol = flags.testAny(TR_PostDependencyCoercion) ? "!" : "";
    const char *regSpillSymbol = flags.testAny(TR_RegisterSpilled) ? "$" : "";
