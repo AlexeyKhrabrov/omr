@@ -237,7 +237,8 @@ public:
     * Flag functions
     */
 
-   void setUnresolved()                         { _flags.set(Unresolved); }
+   static size_t _numUnresolved;
+   void setUnresolved()                         { _flags.set(Unresolved); ++_numUnresolved; }
    bool isUnresolved()                          { return _flags.testAny(Unresolved); }
 
    void setCanGCandReturn()                     { _flags.set(CanGCandReturn); }

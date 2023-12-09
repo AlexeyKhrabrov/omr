@@ -48,6 +48,8 @@
 
 class TR_OpaqueClassBlock;
 
+size_t OMR::SymbolReference::_numUnresolved = 0;
+
 TR::SymbolReference*
 OMR::SymbolReference::self()
    {
