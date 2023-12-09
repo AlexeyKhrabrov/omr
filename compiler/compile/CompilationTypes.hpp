@@ -37,7 +37,7 @@ namespace TR { class TreeTop; }
 
 enum TR_Hotness
 #if !defined(LINUXPPC) || defined(__LITTLE_ENDIAN__)
-   : int8_t // use only 8 bits to save space; The ifdef is needed because xlC BE compiler does not accept the syntax
+   : uint8_t // use only 8 bits to save space; The ifdef is needed because xlC BE compiler does not accept the syntax
 #endif
    {
    noOpt,
