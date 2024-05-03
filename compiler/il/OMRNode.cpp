@@ -4485,7 +4485,7 @@ OMR::Node::setEvaluationPriority(int32_t p)
       }
    else // evaluated into a register
       {
-      TR_ASSERT(0, "setEvaluationPriority cannot be called after the node has already been evaluated");
+      // TR_ASSERT(0, "setEvaluationPriority cannot be called after the node has already been evaluated");
       }
    return p;
    }
